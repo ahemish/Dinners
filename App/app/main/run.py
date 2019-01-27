@@ -8,6 +8,8 @@ from werkzeug.security import generate_password_hash
 import flask_login
 from datetime import timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import desc
+
 
 
 #Create Flask app
@@ -142,7 +144,7 @@ def upload_image():
 
 @app.route('/allimages')
 def all_images():
-    image_results = Image.query.all()
+    image_results = Image.query.order_by(desc(Image.created_at)).all()
     return jsonify({'results' : [{"image_id" : i.id,
     "name_tag" : i.name_tag, 
     "image_path" : i.image_path , 
@@ -162,8 +164,13 @@ def add_favourite():
 @app.route('/getfavourites')
 def get_favourite():
     user_id = flask_login.current_user.id
-    Favourite.query.filter_by(user_id=user_id)
-    return ''
+    favourite_images = db.session.query(Favourite,Image).filter_by(user_id=user_id).join(Image,Favourite.image_id==Image.id).all()
+    return jsonify({'results' : [{"image_id" : i[1].id,
+    "name_tag" : i[1].name_tag, 
+    "image_path" : i[1].image_path , 
+    "image_name": i[1].image_path, 
+    "created_at": i[1].created_at} for i in favourite_images]
+     })
 
 @app.route('/favourites')
 @flask_login.login_required

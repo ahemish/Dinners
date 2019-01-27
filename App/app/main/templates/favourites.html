@@ -30,10 +30,11 @@
 
         <div class="card bg-light">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Upload Dinner
-    </button>
-
+    <a href="{{url_for('home')}}" class="btn btn-primary"  >
+        <button type="button" class="btn btn-primary" >
+            All Dinners
+        </button>
+        </a>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

@@ -18,6 +18,7 @@ class Favourite(db.Model ,UserMixin):
     user_id = db.Column(db.Integer, unique=True)
     selected_at = db.Column(db.DateTime())
 
+
 class Image(db.Model ,UserMixin):
     __tablename__ = "image_metadata"
     id = db.Column(db.Integer, primary_key=True)
