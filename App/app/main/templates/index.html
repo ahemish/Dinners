@@ -148,14 +148,22 @@
                 processData: false, // important
                 contentType: false, // important
                 dataType: 'json',
-                data: myFormData
+                data: myFormData,
+                success :   function(data){
 
+                $('#exampleModal').modal('hide');
+                $('.modal-backdrop').hide();
+                $('#d').fadeOut('fast');
+                getDinners();
+                $('#d').fadeIn("slow");
+            },
+            error : function(data , status)
+            {
+                console.log()
+                console.log(data)
+            }
             });
-            $('#exampleModal').modal('toggle')
-            $('.modal-backdrop').hide()
-            $('#d').fadeOut('fast')
-            getDinners();
-            $('#d').fadeIn("slow");
+           
 
         }
 

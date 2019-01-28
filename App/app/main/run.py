@@ -138,7 +138,7 @@ def upload_image():
         image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
         db.session.add(image_metadata)
         db.session.commit()
-        return 'Success' #send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
+        return jsonify({'status':'Success'}) #send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
     else:   
         return "Where is the image?"
 
