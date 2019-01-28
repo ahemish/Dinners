@@ -30,14 +30,11 @@
 
         <div class="card bg-light">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Upload Dinner
-    </button>
-    <a href="{{url_for('favourites')}}"  >
-    <button type="button" class="btn btn-primary" >
-        Favourite Dinners
-    </button>
-    </a>
+    <a href="{{url_for('home')}}" class="btn btn-primary"  >
+        <button type="button" class="btn btn-primary" >
+            All Dinners
+        </button>
+        </a>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -117,7 +114,7 @@
 
         function getDinners() {
             $.ajax({
-                url: "/allimages",
+                url: "/getfavourites",
                 context: document.body,
                 success: function(result, status) {
                     imageData = result['results'];
@@ -126,7 +123,7 @@
                     for (i = 0; i < imageData.length; i++) {
                         //dinnerTable = dinnerTable + "<tr><td>" + imageData[i].name_tag + "</td><td><img src='" +  imageData[i].image_path + "' width=300 height=300></td></tr>"
                         dinnerTable = dinnerTable + "<div class='card'>"
-                        dinnerTable = dinnerTable + "<img class='card-img-top' src='http://localhost" + imageData[i].image_path + "' alt='Card image cap'>"
+                        dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
                         dinnerTable = dinnerTable + "<div class='card-body'><h5 class='card-title'>" + imageData[i].name_tag + "</h5>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</a></div></div>"
 
@@ -148,22 +145,14 @@
                 processData: false, // important
                 contentType: false, // important
                 dataType: 'json',
-                data: myFormData,
-                success :   function(data){
+                data: myFormData
 
-                $('#exampleModal').modal('hide');
-                $('.modal-backdrop').hide();
-                $('#d').fadeOut('fast');
-                getDinners();
-                $('#d').fadeIn("slow");
-            },
-            error : function(data , status)
-            {
-                console.log()
-                console.log(data)
-            }
             });
-           
+            $('#exampleModal').modal('toggle')
+            $('.modal-backdrop').hide()
+            $('#d').fadeOut('fast')
+            getDinners();
+            $('#d').fadeIn("slow");
 
         }
 

@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import logging, os
 from werkzeug import secure_filename
 from datetime import datetime
-from flask_cors import CORS, cross_origin
 from werkzeug.security import generate_password_hash
 import flask_login
 from datetime import timedelta
@@ -22,12 +21,10 @@ from  models import *
 
 
 #config settings
+app.config.from_pyfile('config.cfg')
 app.secret_key = 'super secret string'  # Change this!
-app.config['CORS_HEADERS'] = 'Content-Type'
 PROJECT_HOME = os.path.dirname(os.path.realpath(__file__))
-UPLOAD_FOLDER = 'C:/Users/ahemish/Downloads/nginx-1.14.2/nginx-1.14.2/html/uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///c:/Users/ahemish/Documents/Dinners/sqlite/dinners.db'
+
 
 #flask_login setup
 login_manager = flask_login.LoginManager()
@@ -35,9 +32,7 @@ login_manager.init_app(app)
 login_manager.needs_refresh_message_category = "info"
 
 
-#TODO remove cors
-cors = CORS(app)
-    
+
 
 
 @login_manager.user_loader
@@ -102,17 +97,12 @@ def register():
    
 
 
-@app.route('/protected')
-@flask_login.login_required
-def protected():
- 
-    return 'Logged in as: ' + flask_login.current_user.id
 
 
 @app.route('/logout')
 def logout():
     flask_login.logout_user()
-    return redirect(url_for('login')) #'Logged out'
+    return redirect(url_for('login'))
 
 @app.route('/')
 def root():
@@ -138,14 +128,16 @@ def upload_image():
         image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
         db.session.add(image_metadata)
         db.session.commit()
-        return jsonify({'status':'Success'}) #send_from_directory(app.config['UPLOAD_FOLDER'],img_name, as_attachment=True)
+        return jsonify({'status':'Success'})
     else:   
-        return "Where is the image?"
+        return jsonify({'status':'Failed'})
 
 @app.route('/allimages')
+@flask_login.login_required
 def all_images():
     image_results = Image.query.order_by(desc(Image.created_at)).all()
-    return jsonify({'results' : [{"image_id" : i.id,
+    return jsonify({'results' : [{"image_host" : app.config['HOST'],
+    "image_id" : i.id,
     "name_tag" : i.name_tag, 
     "image_path" : i.image_path , 
     "image_name": i.image_path, 
@@ -153,19 +145,22 @@ def all_images():
      })
 
 @app.route('/addfavourite')
+@flask_login.login_required
 def add_favourite():
     image_id = request.args['image_id']
     user_id = flask_login.current_user.id
     favourite = Favourite(image_id=image_id, user_id=user_id,selected_at=datetime.now())
     db.session.add(favourite)
     db.session.commit()
-    return ''
+    return jsonify({'status':'Success'})
 
 @app.route('/getfavourites')
+@flask_login.login_required
 def get_favourite():
     user_id = flask_login.current_user.id
-    favourite_images = db.session.query(Favourite,Image).filter_by(user_id=user_id).join(Image,Favourite.image_id==Image.id).all()
-    return jsonify({'results' : [{"image_id" : i[1].id,
+    favourite_images = db.session.query(Favourite,Image).filter_by(user_id=user_id).order_by(desc(Favourite.selected_at)).join(Image,Favourite.image_id==Image.id).all()
+    return jsonify({'results' : [{"image_host" : app.config['HOST'],
+    "image_id" : i[1].id,
     "name_tag" : i[1].name_tag, 
     "image_path" : i[1].image_path , 
     "image_name": i[1].image_path, 
