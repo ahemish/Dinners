@@ -123,7 +123,7 @@ def upload_image():
         img_name = secure_filename(img.filename)
         create_new_folder(app.config['UPLOAD_FOLDER'])
         saved_path = os.path.join(app.config['UPLOAD_FOLDER'], img_name)
-        image_path = '/uploads/' + img_name
+        image_path = app.config['IMAGE_PATH'] + '/' + img_name
         img.save(saved_path)
         image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
         db.session.add(image_metadata)
