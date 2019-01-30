@@ -132,6 +132,23 @@ def upload_image():
     else:   
         return jsonify({'status':'Failed'})
 
+@app.route('/removedinner', methods = ['POST'])
+@flask_login.login_required
+def remove_image():
+    if request.method == 'POST' and request.files['image'] and request.form['name']:
+        image_id = request.form['image_id']
+        img_name = secure_filename(img.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], img_name)
+        remove_file(file_path)
+        image_path = app.config['IMAGE_PATH'] + '/' + img_name
+        image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
+        db.session.add(image_metadata)
+        db.session.commit()
+        return jsonify({'status':'Success'})
+    else:   
+        return jsonify({'status':'Failed'})
+
+
 @app.route('/allimages')
 @flask_login.login_required
 def all_images():
