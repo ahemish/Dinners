@@ -120,10 +120,10 @@ def upload_image():
     if request.method == 'POST' and request.files['image'] and request.form['name']:
         img = request.files['image']
         name_tag = request.form['name']
-        img_name = secure_filename(img.filename)
+        img_name = secure_filename(img.filename) + str(datetime.now().strftime("%H%M%S%f"))
         create_new_folder(app.config['UPLOAD_FOLDER'])
         saved_path = os.path.join(app.config['UPLOAD_FOLDER'], img_name)
-        image_path = app.config['IMAGE_PATH'] + '/' + img_name + str(atetime.now().strftime("%H%M%S%f"))
+        image_path = app.config['IMAGE_PATH'] + '/' + img_name
         img.save(saved_path)
         image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
         db.session.add(image_metadata)
