@@ -136,12 +136,12 @@ def upload_image():
 @flask_login.login_required
 def remove_image():
     image_id = request.args['image_id']
-    image_results = Image.query.filter_by(Image.id == image_id).delete()
+    image_results = Image.query.filter_by(id=image_id).delete()
         # remove_file(file_path)
         # image_path = app.config['IMAGE_PATH'] + '/' + img_name
         # image_metadata = Image(name_tag=name_tag,image_path=image_path,image_name=img_name,created_at=datetime.now())
         # db.session.add(image_metadata)
-        # db.session.commit()
+    db.session.commit()
     return jsonify({'status':'Success'})
     # else:   
     #     return jsonify({'status':'Failed'})
