@@ -86,7 +86,10 @@
 <!--container end.//-->
 
     <script language="javascript">
-        $("#save").hide();
+        $(document).ready(function() {
+            $("#save").hide();
+        });
+
         $("#edit").on('click', function(event) {
             event.preventDefault();
             $(this).hide();
