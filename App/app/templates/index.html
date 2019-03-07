@@ -86,26 +86,6 @@
 <!--container end.//-->
 
     <script language="javascript">
-
-        $(".edit").on('click', function(event) {
-            event.preventDefault();
-            $(this).replaceWith("<a href='#' class='save'  id='save' >save</a>")
-            $("#save").show();
-            var nameTag = $(this).parent().find('h5').text();
-            $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
-        });
-            
-        $("#save").on('click', function(event) {
-            event.preventDefault();
-            $(this).replaceWith("<a href='#' class='edit' id='edit'>edit</a>");
-            // $("#edit").show();
-            var imageId = $(this).parent().attr('data-image-id');
-            var newName = $("#newName").val();
-            updateNameTag(newName,imageId);
-            $("#newName").replaceWith('<h5>'+newName+'</h5>')
-
-            });
-
         $("#image_upload").submit(function(event) {
 
             /* stop form from submitting normally */
@@ -117,8 +97,6 @@
         $(document).ready(function() {
             getDinners();
             $("#previewimage").hide();
-            $(".save").hide();
-
         });
 
         function readURL(input) {
@@ -226,6 +204,25 @@
                 }
             })
         }
+
+        $(".edit").on('click', function(event) {
+            event.preventDefault();
+            $(this).replaceWith("<a href='#' class='save'  id='save' >save</a>")
+            $("#save").show();
+            var nameTag = $(this).parent().find('h5').text();
+            $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
+        });
+            
+        $("#save").on('click', function(event) {
+            event.preventDefault();
+            $(this).replaceWith("<a href='#' class='edit' id='edit'>edit</a>");
+            // $("#edit").show();
+            var imageId = $(this).parent().attr('data-image-id');
+            var newName = $("#newName").val();
+            updateNameTag(newName,imageId);
+            $("#newName").replaceWith('<h5>'+newName+'</h5>')
+
+            });
     </script>
 
 </body>
