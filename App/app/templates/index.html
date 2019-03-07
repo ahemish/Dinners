@@ -89,16 +89,16 @@
 
         $(".edit").on('click', function(event) {
             event.preventDefault();
-            $(this).hide();
+            $(this).replaceWith("<a href='#' class='save'  id='save' >save</a>")
             $("#save").show();
             var nameTag = $(this).parent().find('h5').text();
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
         });
             
-        $(".save").on('click', function(event) {
+        $("#save").on('click', function(event) {
             event.preventDefault();
-            $(this).hide();
-            $("#edit").show();
+            $(this).replaceWith("<a href='#' class='edit' id='edit'>edit</a>");
+            // $("#edit").show();
             var imageId = $(this).parent().attr('data-image-id');
             var newName = $("#newName").val();
             updateNameTag(newName,imageId);
@@ -146,7 +146,7 @@
                     for (i = 0; i < imageData.length; i++) {
                         dinnerTable = dinnerTable + "<div class='card'>"
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
-                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='edit' id='edit'>edit</a><a href='#' class='save'  id='save' >save</a>"
+                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='edit' id='edit'>edit</a>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
                         dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
                     }
