@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* img{
+  max-width:180px;
+} */
+        
+        input[type='file'] {
+            color: transparent;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <br>
+        <p class="text-center">Dinner App </p>
+        <hr>
+
+        <div class="card bg-light">
+    <!-- Button trigger modal -->
+    <a href="{{url_for('home')}}" class="btn btn-primary"  >
+        <button type="button" class="btn btn-primary" >
+            All Dinners
+        </button>
+        </a>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload New Dinner</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" id="image_upload">
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label">Image</label>
+                            <div class="col-sm-10">
+                                <input type="file" name="image" required="required" accept="image/*" id="image" onchange="readURL(this);">
+                            </div>
+                        </div>
+                        <!-- <img id="previewimage" src="" alt="your image" /> -->
+                        <!-- <input type="text" name="name"  id = "name"> -->
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-sm-2 col-form-label">Dinner Name</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="name" required="required" type="text" placeholder="Dinner Name" name="name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" type="submit" id="uploadDinner" class="btn btn-primary" onclick="uploadImage()" data-dismiss="modal">Upload Dinner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="card-columns" id="d">
+
+        </div>
+    </div>
+  </div>
+  <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+    <script language="javascript">
+        $("#image_upload").submit(function(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+            uploadImage();
+        })
+
+        var imageData;
+        $(document).ready(function() {
+            getDinners();
+            $("#previewimage").hide();
+
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#image')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                $("#previewimage").show();
+
+            }
+        }
+
+        function getDinners() {
+            $.ajax({
+                url: "/getusersfavourites",
+                context: document.body,
+                success: function(result, status) {
+                    imageData = result['results'];
+                    //var dinnerTable = "<table><tr><th></th><th>d</th></tr>";
+                    var dinnerTable = "";
+                    for (i = 0; i < imageData.length; i++) {
+                        //dinnerTable = dinnerTable + "<tr><td>" + imageData[i].name_tag + "</td><td><img src='" +  imageData[i].image_path + "' width=300 height=300></td></tr>"
+                        dinnerTable = dinnerTable + "<div class='card'>"
+                        dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
+                        dinnerTable = dinnerTable + "<div class='card-body'><h5 class='card-title'>" + imageData[i].name_tag + "</h5>"
+                        dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</a></div></div>"
+
+                    }
+                    // dinnerTable = dinnerTable + "</table>";
+                    $("#d").html(dinnerTable);
+                }
+            });
+        }
+
+        function uploadImage() {
+            var myFormData = new FormData();
+            myFormData.append('image', image.files[0]);
+            myFormData.append('name', $("#name").val());
+
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                processData: false, // important
+                contentType: false, // important
+                dataType: 'json',
+                data: myFormData
+
+            });
+            $('#exampleModal').modal('toggle')
+            $('.modal-backdrop').hide()
+            $('#d').fadeOut('fast')
+            getDinners();
+            $('#d').fadeIn("slow");
+
+        }
+
+        function add_favourite(elem){
+          favourite_data = {'image_id' : elem}
+          $.ajax({
+                url: '/addfavourite',
+                type: 'GET',
+                dataType: 'json',
+                data: favourite_data
+
+            });
+
+
+        }
+    </script>
+
+</body>
+
+</html>
