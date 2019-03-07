@@ -86,9 +86,6 @@
 <!--container end.//-->
 
     <script language="javascript">
-        $(document).ready(function() {
-            $(".save").hide();
-        });
 
         $(".edit").on('click', function(event) {
             event.preventDefault();
@@ -120,6 +117,7 @@
         $(document).ready(function() {
             getDinners();
             $("#previewimage").hide();
+            $(".save").hide();
 
         });
 
