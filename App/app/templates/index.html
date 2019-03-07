@@ -87,10 +87,10 @@
 
     <script language="javascript">
         $(document).ready(function() {
-            $("#save").hide();
+            $(".save").hide();
         });
 
-        $("#edit").on('click', function(event) {
+        $(".edit").on('click', function(event) {
             event.preventDefault();
             $(this).hide();
             $("#save").show();
@@ -98,7 +98,7 @@
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
         });
             
-        $("#save").on('click', function(event) {
+        $(".save").on('click', function(event) {
             event.preventDefault();
             $(this).hide();
             $("#edit").show();
@@ -148,7 +148,7 @@
                     for (i = 0; i < imageData.length; i++) {
                         dinnerTable = dinnerTable + "<div class='card'>"
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
-                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='nameTags' id='edit'>edit</a><a href='#'  id='save' >save</a>"
+                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='edit' id='edit'>edit</a><a href='#' class='save'  id='save' >save</a>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
                         dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
                     }
