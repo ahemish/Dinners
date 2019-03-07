@@ -187,5 +187,17 @@ def get_favourite():
 def favourites():
     return render_template('favourites.html')
 
+@app.route('/updatename')
+@flask_login.login_required
+def update_name():
+    new_name = request.args['name_tag']
+    image_id = request.args['image_id']
+    image_results = Image.query.filter_by(id=image_id)
+    image_results.name_tag = new_name
+    db.session.commit()
+
+
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0",port=8080,debug=True)

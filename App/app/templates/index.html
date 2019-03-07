@@ -86,6 +86,26 @@
 <!--container end.//-->
 
     <script language="javascript">
+        $("#save").hide();
+        $("#edit").on('click', function(event) {
+            event.preventDefault();
+            $(this).hide();
+            $("#save").show();
+            var nameTag = $(this).parent().find('h5').text();
+            $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
+        });
+            
+        $("#save").on('click', function(event) {
+            event.preventDefault();
+            $(this).hide();
+            $("#edit").show();
+            var imageId = $(this).parent().attr('data-image-id');
+            var newName = $("#newName").val();
+            updateNameTag(newName,imageId);
+            $("#newName").replaceWith('<h5>'+newName+'</h5>')
+
+            });
+
         $("#image_upload").submit(function(event) {
 
             /* stop form from submitting normally */
@@ -121,19 +141,14 @@
                 context: document.body,
                 success: function(result, status) {
                     imageData = result['results'];
-                    //var dinnerTable = "<table><tr><th></th><th>d</th></tr>";
                     var dinnerTable = "";
                     for (i = 0; i < imageData.length; i++) {
-                        //dinnerTable = dinnerTable + "<tr><td>" + imageData[i].name_tag + "</td><td><img src='" +  imageData[i].image_path + "' width=300 height=300></td></tr>"
                         dinnerTable = dinnerTable + "<div class='card'>"
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
-                        dinnerTable = dinnerTable + "<div class='card-body'><h5 class='card-title'>" + imageData[i].name_tag + "</h5>"
+                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='nameTags' id='edit'>edit</a><a href='#'  id='save' >save</a>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
                         dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
-
-
                     }
-                    // dinnerTable = dinnerTable + "</table>";
                     $("#d").html(dinnerTable);
                 }
             });
@@ -147,8 +162,8 @@
             $.ajax({
                 url: '/upload',
                 type: 'POST',
-                processData: false, // important
-                contentType: false, // important
+                processData: false,
+                contentType: false,
                 dataType: 'json',
                 data: myFormData,
                 success :   function(data){
@@ -194,6 +209,21 @@
                 }
 
             });
+        }
+
+        function updateNameTag(newName, imageId)
+        {
+            update_data = {"name_tag" :  newName,
+                            "image_id" : imageId}
+            $.ajax({
+                url: '/updatename',
+                type: 'GET',
+                dataType: 'json',
+                data: update_data,
+                success : function(data){
+                    
+                }
+            })
         }
     </script>
 
