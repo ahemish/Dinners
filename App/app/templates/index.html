@@ -124,7 +124,7 @@
                     for (i = 0; i < imageData.length; i++) {
                         dinnerTable = dinnerTable + "<div class='card'>"
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
-                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5> <a href='#' class='edit' id='edit'>edit</a>"
+                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5><button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
                         dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
                     }
@@ -208,7 +208,7 @@
         $(".edit").on('click', function(event) {
             event.preventDefault();
             alert('hello!')
-            $(this).replaceWith("<a href='#' class='save'  id='save' >save</a>")
+            $(this).replaceWith("<button type='button' class='save' id='save' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Save </button>")
             var nameTag = $(this).parent().find('h5').text();
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
         });
