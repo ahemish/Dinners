@@ -176,18 +176,21 @@
 
         function removeDinner(elem){
             remove_data = {"image_id" : elem}
-            $.ajax({
-                url: '/removedinner',
-                type: 'GET',
-                dataType: 'json',
-                data: remove_data,
-                success :   function(data){
-                $('#d').fadeOut('fast');
-                getDinners();
-                $('#d').fadeIn("slow");
-                }
+            if (confirm("Remove Image?")) {
+                $.ajax({
+                    url: '/removedinner',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: remove_data,
+                    success :   function(data){
+                    $('#d').fadeOut('fast');
+                    getDinners();
+                    $('#d').fadeIn("slow");
+                    }
 
-            });
+                });
+            }
+
         }
 
         function updateNameTag(newName, imageId)
