@@ -205,7 +205,6 @@
             })
         }
 
-        // $(".edit").on('click', function(event) {
         $(document).on('click','.edit',function(e){
             event.preventDefault();
             var nameTag = $(this).parent().find('h5').text();
@@ -214,12 +213,11 @@
             
         });
 
-        $("#save").on('click', function(event) {
+        $(document).on('click','.save',function(e){
             event.preventDefault();
-            $(this).replaceWith("<a href='#' class='edit' id='edit'>edit</a>");
-            // $("#edit").show();
             var imageId = $(this).parent().attr('data-image-id');
             var newName = $("#newName").val();
+            $(this).replaceWith("<button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>");
             updateNameTag(newName,imageId);
             $("#newName").replaceWith('<h5>'+newName+'</h5>')
 
