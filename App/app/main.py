@@ -195,6 +195,7 @@ def update_name():
     image_results = Image.query.filter_by(id=image_id)
     image_results.name_tag = new_name
     db.session.commit()
+    return jsonify({'status':'Success'})
 
 
 
