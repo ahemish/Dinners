@@ -205,9 +205,9 @@
             })
         }
 
-        $(".edit").on('click', function(event) {
+        // $(".edit").on('click', function(event) {
+        $(document).on('click','.edit',function(e){
             event.preventDefault();
-            alert('hello!')
             $(this).replaceWith("<button type='button' class='save' id='save' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Save </button>")
             var nameTag = $(this).parent().find('h5').text();
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
