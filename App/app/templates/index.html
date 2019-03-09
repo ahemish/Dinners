@@ -208,11 +208,12 @@
         // $(".edit").on('click', function(event) {
         $(document).on('click','.edit',function(e){
             event.preventDefault();
-            $(this).replaceWith("<button type='button' class='save' id='save' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Save </button>")
             var nameTag = $(this).parent().find('h5').text();
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
-        });
+            $(this).replaceWith("<button type='button' class='save' id='save' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Save </button>")
             
+        });
+
         $("#save").on('click', function(event) {
             event.preventDefault();
             $(this).replaceWith("<a href='#' class='edit' id='edit'>edit</a>");
