@@ -92,7 +92,9 @@
             event.preventDefault();
             uploadImage();
         })
-
+	$(document).on('click', function (e) {
+	event.stopPropagation();	
+	});
         var imageData;
         $(document).ready(function() {
             getDinners();
