@@ -217,6 +217,8 @@
             event.preventDefault();
             var imageId = $(this).parent().attr('data-image-id');
             var newName = $("#newName").val();
+            console.log(imageId);
+            console.log(newName);
             $(this).replaceWith("<button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>");
             updateNameTag(newName,imageId);
             $("#newName").replaceWith('<h5>'+newName+'</h5>')
