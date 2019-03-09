@@ -207,8 +207,8 @@
 
         $(".edit").on('click', function(event) {
             event.preventDefault();
+            alert('hello!')
             $(this).replaceWith("<a href='#' class='save'  id='save' >save</a>")
-            $("#save").show();
             var nameTag = $(this).parent().find('h5').text();
             $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
         });
