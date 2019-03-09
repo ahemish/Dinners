@@ -192,7 +192,7 @@ def favourites():
 def update_name():
     new_name = request.args['name_tag']
     image_id = request.args['image_id']
-    image_results = Image.query.filter_by(id=image_id)
+    image_results = Image.query.filter_by(id=image_id).first()
     image_results.name_tag = new_name
     db.session.commit()
     return jsonify({'status':'Success'})
