@@ -202,8 +202,11 @@ def update_name():
 @app.route('/topdinners')
 @flask_login.login_required
 def top_dinners():
-    top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images')).group_by(Favourite.image_id).order_by(desc('top_images')).all()
-    return jsonify({'results': ord([{'image_id': i.top_images } for i in top_dinners_results])})
+    top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images')).group_by(Favourite.image_id).order_by(desc('top_images')).subquery()
+    top_dinners_ids = tuple([i.image_id for i in top_dinners_results])
+    image_paths = db.session.query(Image).filter(Image.id.in__(top_dinners)).all()
+    
+    return jsonify({'results': [{'image_id': i} for i in image_paths]})
 
 
 
