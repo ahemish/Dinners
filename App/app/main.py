@@ -201,7 +201,7 @@ def update_name():
 
 @app.route('/gettopdinners')
 @flask_login.login_required
-def top_dinners():
+def get_top_dinners():
     top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images'),Image).group_by(Favourite.image_id).order_by(desc('top_images')).join(Image,Image.id==Favourite.image_id).all()
     
     return jsonify({'results': [{ "image_host" : app.config['HOST'] ,
