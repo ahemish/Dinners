@@ -207,7 +207,7 @@ def top_dinners():
     #image_paths = db.session.query(Image).filter(Image.id.in_(top_dinners_ids)).all()
     print(top_dinners_results)
     for i in top_dinners_results:
-        print(i)
+        print(i , i.Image.image_path)
     return jsonify({'results': []})
 
 
