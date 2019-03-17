@@ -114,7 +114,7 @@
 
         function getDinners() {
             $.ajax({
-                url: "/topdinners",
+                url: "/gettopdinners",
                 context: document.body,
                 success: function(result, status) {
                     imageData = result['results'];

@@ -199,7 +199,7 @@ def update_name():
     return jsonify({'status':'Success'})
 
 
-@app.route('/topdinners')
+@app.route('/gettopdinners')
 @flask_login.login_required
 def top_dinners():
     top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images'),Image).group_by(Favourite.image_id).order_by(desc('top_images')).join(Image,Image.id==Favourite.image_id).all()
@@ -210,6 +210,11 @@ def top_dinners():
     "name_tag" : i.Image.name_tag,
     "image_path" : i.Image.image_path} for i in top_dinners_results]})
 
+@app.route('/topdinners')
+@flask_login.login_required
+def top_dinners():
+    return render_template('topdinners.html')
+    
 
 
 
