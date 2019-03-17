@@ -207,7 +207,7 @@ def top_dinners():
     return jsonify({'results': [{ "image_host" : app.config['HOST'] ,
     "top_images_id" : i.top_images , 
     "image_id" : i.image_id ,
-    "name_tag" : i[1].name_tag,
+    "name_tag" : i.Image.name_tag,
     "image_path" : i.Image.image_path} for i in top_dinners_results]})
 
 
