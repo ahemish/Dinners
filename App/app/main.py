@@ -203,7 +203,7 @@ def update_name():
 @flask_login.login_required
 def top_dinners():
     top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images')).group_by(Favourite.image_id).order_by(desc('top_images')).all()
-    return jsonify({'results': [{'image_info': i } for i in top_dinners_results]})
+    return jsonify({'results': [{'image_id': i.top_images } for i in top_dinners_results]})
 
 
 
