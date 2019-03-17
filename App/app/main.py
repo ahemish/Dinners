@@ -7,7 +7,8 @@ from werkzeug.security import generate_password_hash
 import flask_login
 from datetime import timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import desc
+from sqlalchemy import desc,func
+
 
 
 
@@ -196,6 +197,13 @@ def update_name():
     image_results.name_tag = new_name
     db.session.commit()
     return jsonify({'status':'Success'})
+
+
+@app.route('/topdinners')
+@flask_login.login_required
+def top_dinners():
+    top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id)).group_by(Favourite.image_id).all()
+    return jsonify({'results': [{'image_info': i } for i in top_dinners_results]})
 
 
 
