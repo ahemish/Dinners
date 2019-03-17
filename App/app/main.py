@@ -205,8 +205,10 @@ def top_dinners():
     top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images'),Image).group_by(Favourite.image_id).order_by(desc('top_images')).join(Image,Image.id==Favourite.image_id).all()
     #top_dinners_ids = tuple([i.image_id for i in top_dinners_results])
     #image_paths = db.session.query(Image).filter(Image.id.in_(top_dinners_ids)).all()
-    
-    return jsonify({'results': [{'image_id': i} for i in top_dinners_results]})
+    print(top_dinners_results)
+    for i in top_dinners_results:
+        print(i)
+    return jsonify({'results': []})
 
 
 
