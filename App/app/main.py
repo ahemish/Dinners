@@ -204,7 +204,7 @@ def update_name():
 def top_dinners():
     top_dinners_results = db.session.query(Favourite.image_id , func.count(Favourite.image_id).label('top_images')).group_by(Favourite.image_id).order_by(desc('top_images')).all()
     top_dinners_ids = tuple([i.image_id for i in top_dinners_results])
-    image_paths = db.session.query(Image).filter(Image.id.in__(top_dinners)).all()
+    image_paths = Image.query.filter(id.in__(top_dinners)).all()
     
     return jsonify({'results': [{'image_id': i} for i in image_paths]})
 
