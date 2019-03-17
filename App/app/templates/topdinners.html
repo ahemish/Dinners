@@ -30,18 +30,11 @@
 
         <div class="card bg-light">
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Upload Dinner
-    </button>
-    <a href="{{url_for('favourites')}}"  >
-    <button type="button" class="btn btn-primary" >
-        Favourite Dinners
-    </button>
-    <a href="{{url_for('topdinners')}}"  >
+    <a href="{{url_for('home')}}" class="btn btn-primary"  >
         <button type="button" class="btn btn-primary" >
-            Top Dinners
+            All Dinners
         </button>
-    </a>
+        </a>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -96,10 +89,12 @@
             event.preventDefault();
             uploadImage();
         })
+
         var imageData;
         $(document).ready(function() {
             getDinners();
             $("#previewimage").hide();
+
         });
 
         function readURL(input) {
@@ -119,18 +114,21 @@
 
         function getDinners() {
             $.ajax({
-                url: "/allimages",
+                url: "/topdinners",
                 context: document.body,
                 success: function(result, status) {
                     imageData = result['results'];
+                    //var dinnerTable = "<table><tr><th></th><th>d</th></tr>";
                     var dinnerTable = "";
                     for (i = 0; i < imageData.length; i++) {
+                        //dinnerTable = dinnerTable + "<tr><td>" + imageData[i].name_tag + "</td><td><img src='" +  imageData[i].image_path + "' width=300 height=300></td></tr>"
                         dinnerTable = dinnerTable + "<div class='card'>"
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
-                        dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5><button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>"
-                        dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
-                        dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
+                        dinnerTable = dinnerTable + "<div class='card-body'><h5 class='card-title'>" + imageData[i].name_tag + "</h5>"
+                        dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</a>"+(i+1)+"</div></div>"
+
                     }
+                    // dinnerTable = dinnerTable + "</table>";
                     $("#d").html(dinnerTable);
                 }
             });
@@ -144,25 +142,17 @@
             $.ajax({
                 url: '/upload',
                 type: 'POST',
-                processData: false,
-                contentType: false,
+                processData: false, // important
+                contentType: false, // important
                 dataType: 'json',
-                data: myFormData,
-                success :   function(data){
+                data: myFormData
 
-                $('#exampleModal').modal('hide');
-                $('.modal-backdrop').hide();
-                $('#d').fadeOut('fast');
-                getDinners();
-                $('#d').fadeIn("slow");
-            },
-            error : function(data , status)
-            {
-                console.log()
-                console.log(data)
-            }
             });
-           
+            $('#exampleModal').modal('toggle')
+            $('.modal-backdrop').hide()
+            $('#d').fadeOut('fast')
+            getDinners();
+            $('#d').fadeIn("slow");
 
         }
 
@@ -175,59 +165,9 @@
                 data: favourite_data
 
             });
-        }
 
-        function removeDinner(elem){
-            remove_data = {"image_id" : elem}
-            if (confirm("Remove Image?")) {
-                $.ajax({
-                    url: '/removedinner',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: remove_data,
-                    success :   function(data){
-                    $('#d').fadeOut('fast');
-                    getDinners();
-                    $('#d').fadeIn("slow");
-                    }
-
-                });
-            }
 
         }
-
-        function updateNameTag(newName, imageId)
-        {
-            update_data = {"name_tag" :  newName,
-                            "image_id" : imageId}
-            $.ajax({
-                url: '/updatename',
-                type: 'GET',
-                dataType: 'json',
-                data: update_data,
-                success : function(data){
-                    
-                }
-            })
-        }
-
-        $(document).on('click','.edit',function(e){
-            event.preventDefault();
-            var nameTag = $(this).parent().find('h5').text();
-            $(this).parent().find('h5').replaceWith('<input id="newName" value="'+nameTag+'"></input>')
-            $(this).replaceWith("<button type='button' class='save' id='save' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Save </button>")
-            
-        });
-
-        $(document).on('click','.save',function(e){
-            event.preventDefault();
-            var imageId = $(this).parent().attr('data-image-id');
-            var newName = $("#newName").val();
-            $(this).replaceWith("<button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>");
-            updateNameTag(newName,imageId);
-            $("#newName").replaceWith('<h5>'+newName+'</h5>')
-
-            });
     </script>
 
 </body>
