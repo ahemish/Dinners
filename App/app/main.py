@@ -165,8 +165,12 @@ def all_images():
 def add_favourite():
     image_id = request.args['image_id']
     user_id = flask_login.current_user.id
-    favourite = Favourite(image_id=image_id, user_id=user_id,selected_at=datetime.now())
-    db.session.add(favourite)
+    favourite_dinner = Favourite.query.filter_by(image_id=image_id).first()
+    if favourite_dinner:
+        Favourite.query.filter_by(image_id=image_id).delete()
+    else:
+        favourite = Favourite(image_id=image_id, user_id=user_id,selected_at=datetime.now())
+        db.session.add(favourite)
     db.session.commit()
     return jsonify({'status':'Success'})
 
