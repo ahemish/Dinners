@@ -192,6 +192,7 @@
         }
         
         function editRecipe() {
+            $('#editRecipe').text("Save Changes");
             var $div=$('#recipeBody'), isEditable=$div.is('.editable');
             $('#recipeBody').prop('contenteditable',!isEditable).toggleClass('editable')
         }
