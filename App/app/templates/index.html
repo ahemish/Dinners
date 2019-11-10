@@ -192,7 +192,13 @@
         }
         
         function editRecipe() {
-            $('#editRecipe').text("Save Changes");
+            if ($('#editRecipe').text() == "Save Changes") {
+                $('#editRecipe').text("Edit Recipe");
+            }
+            else {
+                $('#editRecipe').text("Save Changes");
+            }
+            
             var $div=$('#recipeBody'), isEditable=$div.is('.editable');
             $('#recipeBody').prop('contenteditable',!isEditable).toggleClass('editable')
         }
