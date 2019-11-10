@@ -79,6 +79,24 @@
         </div>
     </div>
 
+    <div class="modal fade" id="recipeModal" tabindex="-1" role="dialog" aria-labelledby="recipeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeModalLabel">Recipe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Hello world! this is some text
+                    this is the next line
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="card-columns" id="d">
 
@@ -130,7 +148,8 @@
                         dinnerTable = dinnerTable + "<img class='card-img-top' src='http://"+imageData[i].image_host+"" + imageData[i].image_path + "' alt='Card image cap'>"
                         dinnerTable = dinnerTable + "<div class='card-body' data-image-id='"+imageData[i].image_id+"'><h5 class='card-title'>" + imageData[i].name_tag + "</h5><button type='button' class='edit' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-pencil'></span> Edit </button>"
                         dinnerTable = dinnerTable + "<button onclick='add_favourite(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Favourite</button>"
-                        dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button></div></div>"
+                        dinnerTable = dinnerTable + "<button onclick='removeDinner(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Remove Dinner</button>"
+                        dinnerTable = dinnerTable + "<button onclick='show_recipe(this.id)'  id='"+imageData[i].image_id+"' class='btn btn-primary'>Recipe</button></div></div>"
                     }
                     $("#d").html(dinnerTable);
                 }
@@ -165,6 +184,10 @@
             });
            
 
+        }
+
+        function show_recipe() {
+            
         }
 
         function add_favourite(elem){
