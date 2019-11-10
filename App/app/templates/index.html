@@ -17,6 +17,8 @@
         input[type='file'] {
             color: transparent;
         }
+
+        .editable{ background:#EAEAEA}
     </style>
 
 </head>
@@ -88,11 +90,14 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="recipeBody">
                     Hello world! this is some text
                     this is the next line
                 </div>
-              
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" type="submit" id="editRecipe" class="btn btn-primary" onclick="editRecipe()" data-dismiss="modal">Edit Recipe</button>
+                    </div>
             </div>
         </div>
     </div>
@@ -184,6 +189,11 @@
             });
            
 
+        }
+        
+        function editRecipe() {
+            var $div=$('#recipeBody'), isEditable=$div.is('.editable');
+            $('recipeBody').prop('contenteditable',!isEditable).toggleClass('editable')
         }
 
         function show_recipe() {
