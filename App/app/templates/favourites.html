@@ -162,13 +162,15 @@
                 url: '/addfavourite',
                 type: 'GET',
                 dataType: 'json',
-                data: favourite_data
-
+                data: favourite_data,
+                success:function(data) {
+                    $('.modal-backdrop').hide()
+                    $('#d').fadeOut('fast')
+                    getDinners();
+                    $('#d').fadeIn("slow");
+                }
             });
-            $('.modal-backdrop').hide()
-            $('#d').fadeOut('fast')
-            getDinners();
-            $('#d').fadeIn("slow");
+
 
         }
     </script>
