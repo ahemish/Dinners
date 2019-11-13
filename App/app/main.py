@@ -227,8 +227,7 @@ def get_recipe():
     print(image_id)
     image_results = Image.query.filter_by(id=image_id).first()
     # db.session.commit()
-    print(image_results.id)
-    return jsonify({'status': image_results.id})
+    return jsonify({'status': image_results.recipe})
     
 
 

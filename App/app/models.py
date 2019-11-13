@@ -25,4 +25,5 @@ class Image(db.Model ,UserMixin):
     name_tag = db.Column(db.Integer)
     image_path = db.Column(db.Integer, unique=True)
     image_name = db.Column(db.String(200),unique=True)
+    recipe = db.Column(db.Text)
     created_at = db.Column(db.DateTime())
