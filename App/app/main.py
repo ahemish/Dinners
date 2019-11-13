@@ -232,7 +232,7 @@ def get_recipe():
 
 @app.route('/updaterecipe')
 @flask_login.login_required
-def update_name():
+def update_recipe():
     recipe = request.args['recipe']
     image_id = request.args['image_id']
     image_results = Image.query.filter_by(id=image_id).first()
