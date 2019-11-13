@@ -240,7 +240,7 @@ def update_name():
     db.session.commit()
     return jsonify({'status':'Success'})
 
-updaterecipe
+
 
 
 if __name__ == '__main__':
