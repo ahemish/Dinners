@@ -220,6 +220,15 @@ def top_dinners():
     return render_template('topdinners.html')
     
 
+@app.route('/getrecipe')
+@flask_login.login_required
+def get_recipe():
+    image_id = request.args['image_id']
+    image_results = Image.query.filter_by(id=image_id).first()
+    # db.session.commit()
+    return jsonify({'status': image_results})
+    
+
 
 
 if __name__ == '__main__':

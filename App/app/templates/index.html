@@ -204,7 +204,20 @@
         }
 
         function show_recipe() {
-            
+          image_id = {'image_id' : elem}
+          $.ajax({
+                url: '/getrecipe',
+                type: 'GET',
+                dataType: 'json',
+                data: image_id,
+                success: function(result, status) {
+                    console.log(result)
+                    $("#recipeBody").text("yoyo")
+                }
+
+            }); 
+        
+        
         }
 
         function add_favourite(elem){

@@ -6,6 +6,7 @@ id Integer primary key NOT NULL AUTO_INCREMENT,
 name_tag  varchar(255),
 image_path	varchar(255),
 image_name varchar(255),
+recipe     text,
 created_at timestamp
 
 
