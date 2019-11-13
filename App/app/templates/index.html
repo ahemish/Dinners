@@ -192,11 +192,19 @@
         }
         
         function editRecipe() {
+            image_id = {'image_id' : $("#editRecipe").val() , "recipe" : $("#recipeBody").text()}
             if ($('#editRecipe').text() == "Save Changes") {
+                $.ajax({
+                url: '/updaterecipe',
+                type: 'GET',
+                dataType: 'json',
+                data: image_id,
+                }); 
                 $('#editRecipe').text("Edit Recipe");
             }
             else {
                 $('#editRecipe').text("Save Changes");
+
             }
             
             var $div=$('#recipeBody'), isEditable=$div.is('.editable');
@@ -204,6 +212,7 @@
         }
 
         function show_recipe(elem) {
+          $("#editRecipe").val(elem)
           image_id = {'image_id' : elem}
           $.ajax({
                 url: '/getrecipe',
@@ -212,7 +221,7 @@
                 data: image_id,
                 success: function(result, status) {
                     console.log(result)
-                    $("#recipeBody").text("yoyo")
+                    $("#recipeBody").text(result["recipe"])
                 }
 
             }); 

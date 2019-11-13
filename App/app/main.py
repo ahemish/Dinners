@@ -224,12 +224,23 @@ def top_dinners():
 @flask_login.login_required
 def get_recipe():
     image_id = request.args['image_id']
-    print(image_id)
     image_results = Image.query.filter_by(id=image_id).first()
     # db.session.commit()
-    return jsonify({'status': image_results.recipe})
+    return jsonify({'recipe': image_results.recipe})
     
 
+
+@app.route('/updaterecipe')
+@flask_login.login_required
+def update_name():
+    recipe = request.args['recipe']
+    image_id = request.args['image_id']
+    image_results = Image.query.filter_by(id=image_id).first()
+    image_results.recipe = recipe
+    db.session.commit()
+    return jsonify({'status':'Success'})
+
+updaterecipe
 
 
 if __name__ == '__main__':
