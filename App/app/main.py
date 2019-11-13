@@ -225,7 +225,7 @@ def top_dinners():
 def get_recipe():
     image_id = request.args['image_id']
     print(image_id)
-    image_results = Image.query.filter_by(id=image_id).first()
+    image_results = Image.query.filter_by(id=image_id).all()
     # db.session.commit()
     print([i for i in image_results])
     return jsonify({'status': image_results})
