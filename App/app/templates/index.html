@@ -203,7 +203,7 @@
             $('#recipeBody').prop('contenteditable',!isEditable).toggleClass('editable')
         }
 
-        function show_recipe() {
+        function show_recipe(elem) {
           image_id = {'image_id' : elem}
           $.ajax({
                 url: '/getrecipe',
