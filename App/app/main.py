@@ -1,7 +1,7 @@
 from flask import Flask, url_for, send_from_directory, request, jsonify,render_template , redirect,session, flash
 from flask_sqlalchemy import SQLAlchemy 
 import logging, os
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 import flask_login
